@@ -1,0 +1,29 @@
+# Network Configuration by Mskim ( brady )
+
+version: '0.1'
+
+# docker networks name
+# want to see the it  => docker networks ls (All docker network exist)
+# Or docker networks inspect kms
+
+networks:
+  kms:
+
+# TODO must set the organization name : org1.example.com => lgcns.com
+# this file will generate only CA server 
+# We going to go to make lgcns's ca server in this file 
+services:
+  ca.lgcns.com:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca.lgcns.com
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.lgcns.com-cert.pem
+    ports:
+      - "7054:7054"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw'
+#	volumes:
+#	  - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca.lgcns.com
+#   networks:
+#      - kms
